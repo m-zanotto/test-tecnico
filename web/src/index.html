@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="testApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test Tecnico</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="MainController">
+    <div class="container mt-5">
+        <h1>Test Tecnico</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dati dal Server</h5>
+                        <div class="alert alert-info" ng-if="loading">
+                            Caricamento in corso...
+                        </div>
+                        <div class="alert alert-danger" ng-if="error">
+                            {{error}}
+                        </div>
+                        <div ng-if="data">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="d in dataItems">
+                                        <td>{{d.id}}</td>
+                                        <td>{{d.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

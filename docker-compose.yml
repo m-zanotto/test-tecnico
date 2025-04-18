@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: test-tecnico-db
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - test-tecnico-network
+
+  api-rest:
+    build:
+      context: .
+      dockerfile: api-rest/Dockerfile
+    container_name: test-tecnico-api
+    depends_on:
+      - postgres
+    ports:
+      - "8085:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/testdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    volumes:
+      - ./api-rest:/app
+    networks:
+      - test-tecnico-network
+    #entrypoint: "tail -f /dev/null"
+
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: test-tecnico-web
+    depends_on:
+      - api-rest
+    ports:
+      - 3000:3000
+      - 9000:9000
+      - 9001:9001
+      - 8084:8084
+    entrypoint: "sh start.sh"
+    #entrypoint: "tail -f /dev/null"
+    volumes:
+      - ./web/src:/home/node/src
+    environment:
+      - NODE_ENV=development
+    networks:
+      - test-tecnico-network
+
+networks:
+  test-tecnico-network:
+    driver: bridge
+
+volumes:
+  postgres_data: 
