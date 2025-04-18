@@ -32,7 +32,7 @@ services:
       - ./api-rest:/app
     networks:
       - test-tecnico-network
-    #entrypoint: "tail -f /dev/null"
+    entrypoint: "tail -f /dev/null"
 
 
   web:
@@ -47,8 +47,8 @@ services:
       - 9000:9000
       - 9001:9001
       - 8084:8084
-    entrypoint: "sh start.sh"
-    #entrypoint: "tail -f /dev/null"
+    #entrypoint: "sh start.sh"
+    entrypoint: "tail -f /dev/null"
     volumes:
       - ./web/src:/home/node/src
     environment:
